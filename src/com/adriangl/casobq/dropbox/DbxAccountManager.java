@@ -85,5 +85,9 @@ public class DbxAccountManager {
 	public boolean isLoggedIn(){
 		return mDBApi.getSession().isLinked();
 	}
+
+	public DropboxAPI<AndroidAuthSession> getApi() {
+		return mDBApi;
+	}
 	
 }

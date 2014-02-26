@@ -1,12 +1,12 @@
 package com.adriangl.casobq;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.adriangl.casobq.dropbox.DbxAccountManager;
 
@@ -47,7 +47,9 @@ public class SplashActivity extends Activity implements OnClickListener {
 	}
 
 	private void launchBrowser() {
-		Toast.makeText(this, "LINK OK", Toast.LENGTH_LONG).show();		
+		Intent i = new Intent(this, BrowserActivity.class);
+		startActivity(i);
+		this.finish();
 	}
 
 	@Override
