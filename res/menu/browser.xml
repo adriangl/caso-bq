@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/action_order_by_file_name"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/order_by_file_name"/>
+    
+    <item
+        android:id="@+id/action_order_by_date"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/order_by_date"/>
+
+</menu>

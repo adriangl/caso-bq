@@ -1,6 +1,9 @@
 package com.adriangl.casobq.adapters;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
@@ -18,6 +21,7 @@ public class DropboxEntryAdapter extends BaseAdapter {
 	
 	private List<DropboxAPI.Entry> mItems;
 	private Context mContext;
+	private SimpleDateFormat mDateFormatter = new SimpleDateFormat("E, d MMM yyyy HH:mm:ss Z", Locale.US);
 	
 	// We apply here the ViewHolder pattern. It consists on keeping a reference
 	// to the item's layout elements in order to avoid constant use of 
@@ -76,7 +80,12 @@ public class DropboxEntryAdapter extends BaseAdapter {
 		
 		if (fileEntry != null){
 			vh.mFileNameView.setText(fileEntry.fileName());
-			vh.mFileDateView.setText(fileEntry.modified);
+			try {
+				vh.mFileDateView.setText(mDateFormatter.parse(fileEntry.clientMtime).toLocaleString());
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			vh.mFileIconView.setImageBitmap(BitmapFactory.decodeResource(
 					mContext.getResources(), R.drawable.ic_launcher));
 		}

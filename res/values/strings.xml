@@ -7,4 +7,6 @@
     <string name="link_to_dropbox">Enlazar con Dropbox</string>
 	<string name="wait">Espera...</string>
 	<string name="downloading_epub_data">Descargando datos de ePubs...</string>
+	<string name="order_by_file_name">Ordenar por nombre de fichero</string>
+	<string name="order_by_date">Ordenar por fecha</string>
 </resources>
