@@ -4,11 +4,11 @@ import java.util.Comparator;
 
 import com.adriangl.casobq.classes.EpubEntry;
 
-public class FileNameComparator implements Comparator<EpubEntry> {
+public class FileBookNameComparator implements Comparator<EpubEntry> {
 	
 	@Override
 	public int compare(EpubEntry lhs, EpubEntry rhs) {
-		return lhs.getFileName().compareToIgnoreCase(rhs.getFileName());
+		return lhs.getBookName().compareToIgnoreCase(rhs.getBookName());
 	}
 
 }

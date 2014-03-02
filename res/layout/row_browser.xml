@@ -7,28 +7,44 @@
         android:id="@+id/file_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:padding="5dp"
         android:src="@drawable/ic_launcher" />
-
+    
+	<TextView
+        android:id="@+id/book_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/file_icon"
+        android:layout_centerHorizontal="true"
+        android:padding="5dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/black"
+        android:textAlignment="center"
+        android:ellipsize="end" 
+        android:singleLine="true"/>
+    
     <TextView
         android:id="@+id/file_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/file_icon"
-        android:textColor="@android:color/black"
+        android:layout_below="@+id/book_name"
+        android:layout_centerHorizontal="true"
         android:padding="5dp"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/black"
+        android:textAlignment="center"
+        android:ellipsize="end" />
 
     <TextView
         android:id="@+id/file_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/file_icon"
-        android:layout_alignLeft="@+id/file_name"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/file_name"
         android:padding="5dp"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textAlignment="center"
+        android:ellipsize="end" />
 
 </RelativeLayout>

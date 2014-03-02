@@ -1,9 +1,6 @@
 package com.adriangl.casobq.adapters;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
@@ -15,13 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.adriangl.casobq.R;
-import com.dropbox.client2.DropboxAPI;
+import com.adriangl.casobq.classes.EpubEntry;
 
 public class DropboxEntryAdapter extends BaseAdapter {
 	
-	private List<DropboxAPI.Entry> mItems;
+	private List<EpubEntry> mItems;
 	private Context mContext;
-	private SimpleDateFormat mDateFormatter = new SimpleDateFormat("E, d MMM yyyy HH:mm:ss Z", Locale.US);
 	
 	// We apply here the ViewHolder pattern. It consists on keeping a reference
 	// to the item's layout elements in order to avoid constant use of 
@@ -31,9 +27,10 @@ public class DropboxEntryAdapter extends BaseAdapter {
 		ImageView mFileIconView;
 		TextView mFileNameView;
 		TextView mFileDateView;
+		public TextView mBookNameView;
 	}
 	
-	public DropboxEntryAdapter(List<DropboxAPI.Entry> items, Context ctx) {
+	public DropboxEntryAdapter(List<EpubEntry> items, Context ctx) {
 		mItems = items;
 		mContext = ctx.getApplicationContext();
 	}
@@ -64,10 +61,12 @@ public class DropboxEntryAdapter extends BaseAdapter {
 			LayoutInflater inflater = LayoutInflater.from(mContext);
 			convertView = inflater.inflate(R.layout.row_browser, null);
 			ImageView fileIconView = (ImageView)convertView.findViewById(R.id.file_icon);
+			TextView bookNameView = (TextView)convertView.findViewById(R.id.book_name);
 			TextView fileNameView = (TextView)convertView.findViewById(R.id.file_name);
 			TextView fileDateView = (TextView)convertView.findViewById(R.id.file_date);
 			
 			ViewHolder vh = new ViewHolder();
+			vh.mBookNameView = bookNameView;
 			vh.mFileIconView = fileIconView;
 			vh.mFileNameView = fileNameView;
 			vh.mFileDateView = fileDateView;
@@ -76,16 +75,12 @@ public class DropboxEntryAdapter extends BaseAdapter {
 		}
 		
 		ViewHolder vh = (ViewHolder) convertView.getTag();
-		DropboxAPI.Entry fileEntry = mItems.get(position);
+		EpubEntry fileEntry = mItems.get(position);
 		
 		if (fileEntry != null){
-			vh.mFileNameView.setText(fileEntry.fileName());
-			try {
-				vh.mFileDateView.setText(mDateFormatter.parse(fileEntry.clientMtime).toLocaleString());
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			vh.mBookNameView.setText(fileEntry.getBookName());
+			vh.mFileNameView.setText(fileEntry.getFileName());
+			vh.mFileDateView.setText(fileEntry.getDate().toString());
 			vh.mFileIconView.setImageBitmap(BitmapFactory.decodeResource(
 					mContext.getResources(), R.drawable.ic_launcher));
 		}

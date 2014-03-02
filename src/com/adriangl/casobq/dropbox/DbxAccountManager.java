@@ -17,9 +17,7 @@ public class DbxAccountManager {
 	
 	public DbxAccountManager(Context ctx){
 		mContext = ctx.getApplicationContext();
-		if (mDBApi == null){
-			setupSession();
-		}
+		setupSession();
 	}
 
 	private void setupSession() {
@@ -27,7 +25,7 @@ public class DbxAccountManager {
 		AppKeyPair appKeys = new AppKeyPair(Constants.APP_KEY,
 						Constants.APP_SECRET);
 		AndroidAuthSession session = new AndroidAuthSession(appKeys);
-		String storedAccessToken = getStoredSession();
+		String storedAccessToken = getAccessToken();
 		if (storedAccessToken != null){
 			session.setOAuth2AccessToken(storedAccessToken);
 		}
@@ -68,7 +66,7 @@ public class DbxAccountManager {
         edit.commit();
 	}
 	
-	private String getStoredSession(){
+	private String getAccessToken(){
 		// We'll assume that we'll use OAuth2 authentication, so no need to
 		// save a reference to identify that we're actually using OAuth2
 		SharedPreferences prefs = mContext.getSharedPreferences(
@@ -88,6 +86,15 @@ public class DbxAccountManager {
 
 	public DropboxAPI<AndroidAuthSession> getApi() {
 		return mDBApi;
+	}
+	
+	public AndroidAuthSession getSession(){
+		if (mDBApi != null){
+			return mDBApi.getSession();
+		}
+		else{
+			return null;
+		}
 	}
 	
 }
