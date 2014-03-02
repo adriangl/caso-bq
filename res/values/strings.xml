@@ -10,4 +10,6 @@
 	<string name="downloading_epub_cover">Descargando portada…</string>
 	<string name="order_by_file_name">Ordenar por nombre</string>
 	<string name="order_by_date">Ordenar por fecha</string>
+	<string name="check_credentials">Comprobando credenciales</string>
+	<string name="no_internet_connection">No hay conexión a Internet.\r\nHabilite la conexión e inténtelo de nuevo.</string>
 </resources>

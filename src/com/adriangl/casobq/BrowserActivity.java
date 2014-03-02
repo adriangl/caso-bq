@@ -24,12 +24,14 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.adriangl.casobq.adapters.DropboxEntryAdapter;
 import com.adriangl.casobq.classes.EpubEntry;
 import com.adriangl.casobq.comparators.FileBookNameComparator;
 import com.adriangl.casobq.comparators.FileDateComparator;
 import com.adriangl.casobq.dropbox.DbxAccountManager;
+import com.adriangl.casobq.misc.Utils;
 import com.adriangl.casobq.views.DoubleClickGridView;
 import com.adriangl.casobq.views.DoubleClickGridView.OnItemDoubleClickListener;
 import com.dropbox.client2.DropboxAPI.DropboxInputStream;
@@ -69,12 +71,13 @@ public class BrowserActivity extends Activity implements OnItemDoubleClickListen
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mDbxAcctMgr = new DbxAccountManager(this);
-		if (!mDbxAcctMgr.isLoggedIn()){
-			this.finish();
+		if (Utils.hasInternetConnection(this.getApplicationContext())){
+			mDbxAcctMgr = new DbxAccountManager(this);
+			showData();
 		}
 		else{
-			showData();
+			Toast.makeText(this, R.string.no_internet_connection, Toast.LENGTH_LONG).show();
+			this.finish();
 		}
 	}
 	

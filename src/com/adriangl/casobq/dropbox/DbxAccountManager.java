@@ -8,6 +8,8 @@ import android.util.Log;
 import com.adriangl.casobq.misc.Constants;
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.android.AndroidAuthSession;
+import com.dropbox.client2.exception.DropboxException;
+import com.dropbox.client2.exception.DropboxUnlinkedException;
 import com.dropbox.client2.session.AppKeyPair;
 
 public class DbxAccountManager {
@@ -81,7 +83,23 @@ public class DbxAccountManager {
 	}
 	
 	public boolean isLoggedIn(){
-		return mDBApi.getSession().isLinked();
+		if (mDBApi.getSession().isLinked()){
+			try{
+				// The method will throw an exception if the user
+				// is not linked properly or his/her token has
+				// been revoked or expired.
+				mDBApi.accountInfo();
+				return true;
+			}
+			catch (DropboxUnlinkedException e) {
+				return false;
+			} catch (DropboxException e) {
+				return false;
+			}
+		}
+		else{
+			return false;
+		}
 	}
 
 	public DropboxAPI<AndroidAuthSession> getApi() {

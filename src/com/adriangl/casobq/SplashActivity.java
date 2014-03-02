@@ -1,19 +1,25 @@
 package com.adriangl.casobq;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.adriangl.casobq.dropbox.DbxAccountManager;
+import com.adriangl.casobq.misc.Utils;
 
 public class SplashActivity extends Activity implements OnClickListener {
 	
 	private DbxAccountManager mDBXMan;
 	private Button mButtonLinkDbx;
+	public ProgressDialog mPd;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +32,7 @@ public class SplashActivity extends Activity implements OnClickListener {
 
 		// Init Dropbox Account Manager
 		mDBXMan = new DbxAccountManager(this);
-		if (mDBXMan.isLoggedIn()){
-			launchBrowser();
-		}
+		new CheckLoginAsyncTask().execute();
 	}
 
 	@Override
@@ -41,8 +45,23 @@ public class SplashActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if (mDBXMan.completeAuthentication()){
-			launchBrowser();
+		if (Utils.hasInternetConnection(this.getApplicationContext())){
+			if (mDBXMan.completeAuthentication()){
+				launchBrowser();
+			}
+		}
+		else{
+			Toast.makeText(this, R.string.no_internet_connection, Toast.LENGTH_LONG).show();
+			this.finish();
+		}
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if (mPd != null){
+			mPd.dismiss();
+			mPd = null;
 		}
 	}
 
@@ -65,6 +84,36 @@ public class SplashActivity extends Activity implements OnClickListener {
 
 	private void goToDropbox() {
 		mDBXMan.startAuthentication();
+	}
+	
+	private class CheckLoginAsyncTask extends AsyncTask<Void, Void, Boolean>{
+		
+		@Override
+		protected void onPreExecute() {
+			if (mPd != null){
+				mPd.dismiss();
+			}
+			Resources res = getResources();
+			mPd = ProgressDialog.show(SplashActivity.this, res.getString(R.string.wait),
+					res.getString(R.string.check_credentials));
+		}
+		
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			return mDBXMan.isLoggedIn();
+		}
+		
+		@Override
+		protected void onPostExecute(Boolean result) {
+			if (mPd != null){
+				mPd.dismiss();
+				mPd = null;
+			}
+			if (result){
+				launchBrowser();
+			}
+		}
+		
 	}
 
 }
